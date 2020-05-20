@@ -1,29 +1,29 @@
 <template>
 	<div class="wrapper-model">
-		<div class="line-part" v-if="reportItem.proName!==''">
+		<div class="line-part" v-if="isShowFun(reportItem.proName)">
             <span class="pro-name">{{reportItem.proName}}</span>
         </div>
-        <div class="line-part" v-if="reportItem.proBg!==''">
+        <div class="line-part" v-if="isShowFun(reportItem.proBg)">
             <span class="pro-name">需求背景：</span>
             <span class="pro-content">{{reportItem.proBg}}</span>
         </div>
-        <div class="line-part" v-if="reportItem.proPlan!==''">
+        <div class="line-part" v-if="isShowFun(reportItem.proPlan)">
             <span class="pro-name">计划排期：</span>
 			<span class="pro-content">{{reportItem.proPlan}}</span>
         </div>
-        <div class="line-part" v-if="reportItem.proProgress!==''">
+        <div class="line-part" v-if="isShowFun(reportItem.proProgress)">
             <span class="pro-name">目前进度：</span>
 			<span class="pro-content">{{reportItem.proProgress}}</span>
         </div>
-        <div class="line-part" v-if="reportItem.proProblem!==''">
+        <div class="line-part" v-if="isShowFun(reportItem.proProblem)">
             <span class="pro-name">遇到问题：</span>
 			<span class="pro-content">{{reportItem.proProblem}}</span>
         </div>
-        <div class="line-part" v-if="reportItem.proWork!==''">
+        <div class="line-part" v-if="isShowFun(reportItem.proWork)">
             <span class="pro-name">今日工作：</span>
 			<span class="pro-content">{{reportItem.proWork}}</span>
         </div>
-        <div class="line-part" v-if="reportItem.proPerson!==''">
+        <div class="line-part" v-if="isShowFun(reportItem.proPerson)">
             <span class="pro-name">研发人员：</span>
 			<span class="pro-content">{{reportItem.proPerson}}</span>
         </div>
@@ -49,10 +49,17 @@ export default {
 	},
 	created() {},
 	mounted() {
-		console.log(this.reportItem);
+		//console.log(this.reportItem);
 	},
 	destroyed() {},
 	methods: {
+		isShowFun:function(val){
+			if(val == "" || val == "null"){
+				return false;
+			}else{
+				return true;
+			}
+		}
 	}
 };
 </script>

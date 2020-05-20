@@ -6,28 +6,28 @@
         </div>
         <div class="line-max-part">
             <span class="pro-name">需求背景</span>
-            <textarea class="area-box" placeholder="请输入需求背景" v-model="listData.proBg" @blur="changeData" :disabled="listData.proBg==null"></textarea>
-            <nut-switch :active="true" @change="onChange($event,'proBg')" class="my-switch"></nut-switch>
+            <textarea class="area-box" placeholder="请输入需求背景" v-model="listData.proBg" @blur="changeData" :disabled="listData.proBg=='null'"></textarea>
+            <nut-switch :active="listData.proBg|typeData" @change="onChange($event,'proBg')" class="my-switch"></nut-switch>
         </div>
         <div class="line-min-part">
             <span class="pro-name">计划排期</span>
-            <input class="input-box" placeholder="请输入计划排期" v-model="listData.proPlan" @blur="changeData" :disabled="listData.proPlan==null" />
-            <nut-switch :active="true" @change="onChange($event,'proPlan')" class="my-switch"></nut-switch>
+            <input class="input-box" placeholder="请输入计划排期" v-model="listData.proPlan" @blur="changeData" :disabled="listData.proPlan=='null'" />
+            <nut-switch :active="listData.proPlan|typeData" @change="onChange($event,'proPlan')" class="my-switch"></nut-switch>
         </div>
         <div class="line-min-part">
             <span class="pro-name">目前进度</span>
-            <input class="input-box" placeholder="请输入目前需求进度" v-model="listData.proProgress" @blur="changeData" :disabled="listData.proProgress==null"/>
-            <nut-switch :active="true" @change="onChange($event,'proProgress')"  class="my-switch"></nut-switch>
+            <input class="input-box" placeholder="请输入目前需求进度" v-model="listData.proProgress" @blur="changeData" :disabled="listData.proProgress=='null'"/>
+            <nut-switch :active="listData.proProgress|typeData" @change="onChange($event,'proProgress')"  class="my-switch"></nut-switch>
         </div>
         <div class="line-max-part">
             <span class="pro-name">遇到问题</span>
-            <textarea class="area-box" placeholder="请输入遇到问题" v-model="listData.proProblem" @blur="changeData" :disabled="listData.proProblem==null"></textarea>
-            <nut-switch :active="true" @change="onChange($event,'proProblem')" class="my-switch"></nut-switch>
+            <textarea class="area-box" placeholder="请输入遇到问题" v-model="listData.proProblem" @blur="changeData" :disabled="listData.proProblem=='null'"></textarea>
+            <nut-switch :active="listData.proProblem|typeData" @change="onChange($event,'proProblem')" class="my-switch"></nut-switch>
         </div>
         <div class="line-max-part">
             <span class="pro-name">今日工作</span>
-            <textarea class="area-box" placeholder="请输入今日具体工作" v-model="listData.proWork" @blur="changeData" :disabled="listData.proWork==null"></textarea>
-            <nut-switch :active="true" @change="onChange($event,'proWork')" class="my-switch"></nut-switch>
+            <textarea class="area-box" placeholder="请输入今日具体工作" v-model="listData.proWork" @blur="changeData" :disabled="listData.proWork=='null'"></textarea>
+            <nut-switch :active="listData.proWork|typeData" @change="onChange($event,'proWork')" class="my-switch"></nut-switch>
         </div>
         <div class="line-min-part">
             <span class="pro-name">研发人员</span>
@@ -69,20 +69,32 @@ export default {
 	mounted() {
 
 	},
-	destroyed() {},
+    destroyed() {},
+    filters:{
+        typeData(val){
+            if(val == 'null'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    },
 	methods: {
         changeData(){
-            this.$emit("changeProject",this.listData)
+            console.log(1);
+            this.$emit("changeProject",this.listData);
         },
         deletePro(){
             this.$emit("deletePro",this.listData)
         },
         onChange($event,value){
+            console.log(!$event);
             if(!$event){
-                this.listData[value] = null;
+                this.listData[value] = 'null';
             }else{
                 this.listData[value] = '';
             }
+            this.$emit("changeProject",this.listData);
         }
 	}
 };

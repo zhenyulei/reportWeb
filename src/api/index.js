@@ -22,7 +22,7 @@ export function submiProjectList(transData) {
     return axios.post(url, qs.stringify(transData)).then(handleResponse).catch(handleError);
 }
 
-//提交数据
+//查看日报
 export function requestLookData(transData) {
     const url = "/api/project/lookData";
     return axios.post(url, qs.stringify(transData)).then(handleResponse).catch(handleError);

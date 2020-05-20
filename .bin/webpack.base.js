@@ -5,6 +5,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const chalk= require('chalk');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
@@ -19,11 +20,11 @@ let baseConfig = Object.assign({},{
     },
     output:argv.local?{
         filename: 'js/[name].js',
-        path: path.resolve(__dirname, '../dist/project/'), 
+        path: path.resolve(__dirname, '../dist/'), 
       }: {
         filename: 'js/[name].js',
-        path: path.resolve(__dirname, '../dist/project/'), 
-        publicPath: currModel=='upload'?'https://static.360buyimg.com/testGaea5.0/project/':config.publicPath, 
+        path: path.resolve(__dirname, '../dist/'), 
+        publicPath: currModel=='upload'?'https://static.360buyimg.com/testGaea5.0/':config.publicPath, 
     }, 
     resolve: {
       extensions: [ '.tsx', '.ts', '.js', '.vue','.svg' ],
@@ -70,7 +71,16 @@ let baseConfig = Object.assign({},{
       new WebpackBuildNotifierPlugin({
       title: "My Project Webpack Build",        
       suppressSuccess: true
-      })
+      }),
+      new CopyWebpackPlugin([
+          { from: path.join(__dirname, "../src/manifest.json"), to: path.join(__dirname, "./../dist/manifest.json") },
+      ]),
+      new CopyWebpackPlugin([
+          { from: path.join(__dirname, "../src/sw.js"), to: path.join(__dirname, "./../dist/sw.js") },
+      ]),
+      new CopyWebpackPlugin([
+        { from: path.join(__dirname, "../src/logo.png"), to: path.join(__dirname, "./../dist/logo.png") },
+      ])
     ]
 });
 if(fs.existsSync(path.join(__dirname,vendordev))) {

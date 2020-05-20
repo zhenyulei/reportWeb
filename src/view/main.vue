@@ -30,6 +30,10 @@
                 :key= "item.proId"
             />
         </template>
+        <nut-backtop 
+        :distance="400"
+        >
+        </nut-backtop>
     </div>
 </template>
 <script>
@@ -62,7 +66,7 @@ export default {
     },
     methods: {
         async initPage(){
-            var currUser = sessionStorage.getItem("currUser");
+            var currUser = localStorage.getItem("currUser");
             this.currErp = JSON.parse(currUser).userErp;
             this.currPerson = JSON.parse(currUser).userName;
             let transData = {
@@ -94,10 +98,12 @@ export default {
             };
             this.proData.push(newData);
         },
-        async submitProjectData(){
+        async submitProjectData(){  
             if(this.proData.length>0){
                 let res  = await submiProjectList({currData:this.proData});  
-                this.lookReport();
+                this.$toast.text('提交成功～～');
+            }else{
+                this.$toast.text('请填写日报再提交');
             }
         },
         deleteProject(val){
@@ -114,14 +120,13 @@ export default {
                 "currErp": this.currErp
             }
             this.reportData = await requestLookData(transData);
-            console.log(this.reportData);
         },
         showFill(){
             this.isAbled = true;
             this.initPage();
         },
         quitLogin(){
-            sessionStorage.removeItem("currUser");
+            localStorage.removeItem("currUser");
             this.$router.push("/");
         }
     }

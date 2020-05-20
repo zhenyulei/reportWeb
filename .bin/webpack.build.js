@@ -182,7 +182,7 @@ if(fs.existsSync(path.join(__dirname,vendordev))) {
             append:false
         }),
         new CopyWebpackPlugin([
-            { from: path.join(__dirname, vendordev), to: path.join(__dirname, "./../dist/project/" + vendor) },
+            { from: path.join(__dirname, vendordev), to: path.join(__dirname, "./../dist/" + vendor) },
         ])
     ];
 }

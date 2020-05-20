@@ -28,7 +28,9 @@ export default {
 	},
 	created() {},
 	mounted() {
-
+		if(localStorage.getItem("currUser")){
+			this.$router.push("/main");
+		}
 	},
 	destroyed() {},
 	methods: {
@@ -39,7 +41,7 @@ export default {
 			}
 			let res  = await userLogin(transData);
 			if(res.success){
-				sessionStorage.setItem("currUser", JSON.stringify(res));
+				localStorage.setItem("currUser", JSON.stringify(res));
 				this.$router.push("/main");
 			}else{
 				this.$toast.text('账号或者密码不正确');
