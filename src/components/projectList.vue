@@ -102,7 +102,7 @@ export default {
 <style lang="scss" scoped>
 .list-wrapper{
     padding:20px 30px;
-    border:1px solid green;
+    border:1px solid #ccc;
     margin: 0 auto;
     margin-bottom: 20px;
     position: relative;

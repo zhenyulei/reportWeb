@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <div class="quit" @click="quitLogin">退出出登陆</div>
+        <div class="quit" @click="quitLogin">退出登陆</div>
         <h1>欢迎您：{{currPerson}}</h1>
         <h1 class="title">日报系统</h1>
         <ul class="nav">
