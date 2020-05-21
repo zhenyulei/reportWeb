@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <div class="quit" @click="quitLogin">退出登录</div>
-        <h1>欢迎您：{{userName}}</h1>
+        <h1 class="popular">欢迎您：{{userName}}</h1>
         <h1 class="title">日报系统</h1>
         <ul class="nav">
             <li :class="['days',{'active':isAbled}]" @click="showFill">填写日报</li>
@@ -60,10 +60,13 @@ export default {
 
     },
     computed: {
+        
     },
     mounted() {
        this.initPage();
-       
+       this.$nextTick(()=>{
+            document.body.classList.remove("hasbg");
+		})
     },
     methods: {
         async initPage(){
@@ -151,26 +154,29 @@ export default {
         right: 0px;
         padding:5px 20px;
         border: 1px solid #eee;
-        background: #ed4640;
+        background: #ed4640d9;
         text-align: center;
         line-height: 50px;
         font-size: 16px;
         color: #fff;
         cursor: pointer;
     }
+    .popular{
+        color: #ff0074;
+    }
     .nav{
         height: 50px;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
+        margin-bottom: 20px;
         .days{
             width: 100px;
             height: 50px;
-            border: 1px solid #eee;
-            background: #ccc;
+            border: 1px solid #ccc;
             text-align: center;
             line-height: 50px;
             font-size: 16px;
-            color: #fff;
+            color: #333;
             cursor: pointer;
             position: relative;
             .tips{
@@ -183,12 +189,15 @@ export default {
         }
         .active{
             background: #ed4640;
+            border: 1px solid #ed4640;
+            color:#fff;
         }
     }
     .title{
         text-align: center;
         height: 70px;
         font-size: 30px;
+        font-weight: bold;
     }
     .default-part{
         width: 100%;
@@ -214,12 +223,6 @@ export default {
             font-size: 16px;
             color: #fff;
             cursor: pointer;
-        }
-        .addpro{
-
-        }
-        .submit{
-
         }
     }
 }

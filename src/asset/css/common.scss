@@ -102,6 +102,15 @@ body {
     background-color:#fff;
     font-family: PingHei,Lucida Grande,Lucida Sans Unicode,STHeiti,Helvetica,Arial,Verdana,"sans-serif",PingHei-light,SimHei,Droid Sans;
     font-size: 0.26rem;
+    color:#666;
+}
+
+.hasbg{
+    background: url("~@/asset/img/index-bg.png") no-repeat;
+    background-size: 100%;
+}
+.chun-color{
+    background-color: #eee;
 }
 
 a,

@@ -81,7 +81,6 @@ export default {
     },
 	methods: {
         changeData(){
-            console.log(this.listData);
             this.$emit("changeProject",this.listData);
         },
         deletePro(){
@@ -112,7 +111,7 @@ export default {
         width: 100px;
         height: 50px;
         border: 1px solid #eee;
-        background: #999;
+        background: #4e596bbd;
         text-align: center;
         line-height: 50px;
         font-size: 16px;

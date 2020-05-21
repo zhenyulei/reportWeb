@@ -9,7 +9,7 @@
 				<label for="userword" class="word">用户密码</label>
 				<input type="password" class="user-word" id="userword" v-model="usePass" />
 			</div>
-			<div class="btns" @click="loginFun">登录</div>
+			<div class="btns" @click="loginFun">登&nbsp;录</div>
 		</div>
 	</div>
 </template>
@@ -28,23 +28,28 @@ export default {
 	},
 	created() {},
 	mounted() {
-		// if(localStorage.getItem("currUser")){
-		// 	this.$router.push("/main");
-		// }
+		this.$nextTick(()=>{
+			document.body.style.height = document.documentElement.clientHeight+'px';
+			document.body.classList.add("hasbg");
+		})
 	},
 	destroyed() {},
 	methods: {
 		async loginFun(){
-			let transData = {
-				userErp:this.useErp,
-				userPassWord:this.usePass
-			}
-			let res  = await userLogin(transData);
-			if(res.success){
-				localStorage.setItem("currUser", JSON.stringify(res));
-				this.$router.push("/main");
+			if(this.useErp !== ''  && this.usePass !== ''){
+				let transData = {
+					userErp:this.useErp,
+					userPassWord:this.usePass
+				}
+				let res  = await userLogin(transData);
+				if(res.success){
+					localStorage.setItem("currUser", JSON.stringify(res));
+					this.$router.push("/main");
+				}else{
+					this.$toast.text('账号或者密码不正确');
+				}
 			}else{
-				this.$toast.text('账号或者密码不正确');
+					this.$toast.text('请输入账号或者密码～');
 			}
 		}
 	}
@@ -52,17 +57,15 @@ export default {
 </script>
 <style lang="scss">
 .wrapper-dialog{
-	width: 100%;
-	height: 100%;
 	.login-box{
 		width: 500px;
 		height: 300px;
-		background: #eee;
+		background: #fff;
 		position: absolute;
 		top:50%;
-		left: 50%;
+		left: 40%;
         transform: translate(-50%,-50%);
-		padding:20px;
+		padding:30px;
 		padding-top: 30px;
 		border-radius: 20px;
 		.line{
@@ -83,14 +86,15 @@ export default {
 			}
 		}
 		.btns{
-			margin:10px auto;
+			margin:0px auto;
 			height: 50px;
 			line-height: 50px;
 			width: 100px;
 			text-align: center;
-			background: red;
+			background: #ff4f18;
 			color: #fff;
 			cursor: pointer;
+			border-radius: 10px;
 		}
 	}
 }
