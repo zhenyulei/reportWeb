@@ -70,7 +70,7 @@ let buildCongfig = Object.assign(web_base,{
                 ]
             },     
             {
-            test: /\.(png|jpg|gif|webp|woff|eot|ttf|svg)$/,
+            test: /\.(png|jpg|gif|webp|woff|eot|ttf|svg|jpeg)$/,
                 use:{
                     loader:'url-loader',
                     options:{

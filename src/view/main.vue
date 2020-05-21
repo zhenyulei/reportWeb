@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
-        <div class="quit" @click="quitLogin">退出登陆</div>
-        <h1>欢迎您：{{currPerson}}</h1>
+        <div class="quit" @click="quitLogin">退出登录</div>
+        <h1>欢迎您：{{userName}}</h1>
         <h1 class="title">日报系统</h1>
         <ul class="nav">
             <li :class="['days',{'active':isAbled}]" @click="showFill">填写日报</li>
@@ -15,7 +15,7 @@
                 @changeProject = "changeProject"
                 :projectData= "item" 
                 @deletePro= "deleteProject"
-                :key= "item.proId"
+                :key= "item.id"
             />
             <div class="btns">
                 <div class="btn addpro" @click="addProject">增加项目</div>
@@ -27,7 +27,7 @@
             <ReportModle
                 v-for="item in reportData" 
                 :reportItem= "item" 
-                :key= "item.proId"
+                :key= "item.id"
             />
         </template>
         <nut-backtop 
@@ -39,8 +39,7 @@
 <script>
 import ProjectList from "@/components/projectList.vue";
 import ReportModle from "@/components/reportModle.vue";
-import {requestPersonInfo,submiProjectList,requestLookData} from "@/api";
-
+import {requestPersonInfo,submiProjectList,requestLookData,getVersion,deleteData} from "@/api";
 
 export default {
     components: {
@@ -50,8 +49,9 @@ export default {
     data() {
         return {
             proData:[],
-            currErp:"",
-            currPerson:"",
+            userErp:"",
+            userName:"",
+            userGroup:"",
             isAbled:true,
             reportData:[]
         }
@@ -63,20 +63,24 @@ export default {
     },
     mounted() {
        this.initPage();
+       
     },
     methods: {
         async initPage(){
             var currUser = localStorage.getItem("currUser");
-            this.currErp = JSON.parse(currUser).userErp;
-            this.currPerson = JSON.parse(currUser).userName;
+            this.userErp = JSON.parse(currUser).userErp;
+            this.userName = JSON.parse(currUser).userName;
+            this.userGroup = JSON.parse(currUser).userGroup;
             let transData = {
-                "currErp": this.currErp
+                "userErp": this.userErp
             }
             this.proData =  await requestPersonInfo(transData);
+            let version = await getVersion();
+            console.log(version)
         },
         changeProject(val){
             let newArr = this.proData.map((item)=>{
-                if(item.proId === val.proId){
+                if(item.id === val.id){
                     return val;
                 }else{
                     return item;
@@ -86,15 +90,18 @@ export default {
         },
         addProject(){
             let newData = {
+                "id":Date.now(),
+                "addFlag":true,
                 "proName":"",
                 "proBg":"",
                 "proPlan":"",
                 "proProgress":"",
                 "proProblem":"",
                 "proWork":"",
-                "proId": Date.now(),
-                "proPerson":this.currPerson,
-                "proErp":this.currErp
+                "proPerson":this.userName,//需求研发人，可以修改
+                "userName":this.userName,
+                "userGroup":this.userGroup,
+                "userErp":this.userErp //当前登陆人，不允许修改
             };
             this.proData.push(newData);
         },
@@ -106,9 +113,10 @@ export default {
                 this.$toast.text('请填写日报再提交');
             }
         },
-        deleteProject(val){
+        async deleteProject(val){
+            let res = await deleteData({id:val.id});
             let newArr = this.proData.filter((item)=>{
-                if(item.proId !== val.proId){
+                if(item.id !== val.id){
                     return item;
                 }
             })
@@ -117,7 +125,7 @@ export default {
         async lookReport(){
             this.isAbled = false;
             let transData = {
-                "currErp": this.currErp
+                "userErp": this.userErp
             }
             this.reportData = await requestLookData(transData);
         },

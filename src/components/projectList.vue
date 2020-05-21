@@ -81,14 +81,13 @@ export default {
     },
 	methods: {
         changeData(){
-            console.log(1);
+            console.log(this.listData);
             this.$emit("changeProject",this.listData);
         },
         deletePro(){
             this.$emit("deletePro",this.listData)
         },
         onChange($event,value){
-            console.log(!$event);
             if(!$event){
                 this.listData[value] = 'null';
             }else{

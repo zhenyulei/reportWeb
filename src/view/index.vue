@@ -9,7 +9,7 @@
 				<label for="userword" class="word">用户密码</label>
 				<input type="password" class="user-word" id="userword" v-model="usePass" />
 			</div>
-			<div class="btns" @click="loginFun">登陆</div>
+			<div class="btns" @click="loginFun">登录</div>
 		</div>
 	</div>
 </template>
@@ -28,16 +28,16 @@ export default {
 	},
 	created() {},
 	mounted() {
-		if(localStorage.getItem("currUser")){
-			this.$router.push("/main");
-		}
+		// if(localStorage.getItem("currUser")){
+		// 	this.$router.push("/main");
+		// }
 	},
 	destroyed() {},
 	methods: {
 		async loginFun(){
 			let transData = {
-				useErp:this.useErp,
-				usePassWord:this.usePass
+				userErp:this.useErp,
+				userPassWord:this.usePass
 			}
 			let res  = await userLogin(transData);
 			if(res.success){
@@ -52,6 +52,8 @@ export default {
 </script>
 <style lang="scss">
 .wrapper-dialog{
+	width: 100%;
+	height: 100%;
 	.login-box{
 		width: 500px;
 		height: 300px;
@@ -61,6 +63,8 @@ export default {
 		left: 50%;
         transform: translate(-50%,-50%);
 		padding:20px;
+		padding-top: 30px;
+		border-radius: 20px;
 		.line{
 			height: 100px;
 			line-height: 100px;
@@ -75,6 +79,7 @@ export default {
 				height: 50px;
 				line-height: 50px;
 				border: 1px solid #999;
+				font-size: 16px;
 			}
 		}
 		.btns{
