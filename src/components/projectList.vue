@@ -81,10 +81,12 @@ export default {
     },
 	methods: {
         changeData(){
-            this.$emit("changeProject",this.listData);
+            let listData = JSON.parse(JSON.stringify(this.listData).replace(/(\'|\‘)/,'‘'));
+            this.$emit("changeProject",listData);
         },
         deletePro(){
-            this.$emit("deletePro",this.listData)
+            this.$emit("deletePro",this.listData);
+            this.$toast.text('删除成功')
         },
         onChange($event,value){
             if(!$event){

@@ -29,6 +29,11 @@ export default {
 	created() {},
 	mounted() {
 		this.$nextTick(()=>{
+			let currUser = JSON.parse(localStorage.getItem("currUser"));
+			console.log(currUser.userErp)
+			if(currUser.userErp){
+				this.useErp = currUser.userErp;
+			}
 			document.body.style.height = document.documentElement.clientHeight+'px';
 			document.body.classList.add("hasbg");
 		})
@@ -36,7 +41,7 @@ export default {
 	destroyed() {},
 	methods: {
 		async loginFun(){
-			if(this.useErp !== ''  && this.usePass !== ''){
+			if(this.useErp !== ''  && this.usePass !== '' && Number(this.usePass) !== "NaN"){
 				let transData = {
 					userErp:this.useErp,
 					userPassWord:this.usePass
@@ -49,7 +54,7 @@ export default {
 					this.$toast.text('账号或者密码不正确');
 				}
 			}else{
-					this.$toast.text('请输入账号或者密码～');
+				this.$toast.text('请输入账号或者密码～');
 			}
 		}
 	}

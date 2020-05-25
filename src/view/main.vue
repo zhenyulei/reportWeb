@@ -2,6 +2,7 @@
     <div class="wrapper">
         <div class="quit" @click="quitLogin">退出登录</div>
         <h1 class="popular">欢迎您：{{userName}}</h1>
+        <ScoketRes v-if="userErp === 'zhenyulei'"/>
         <h1 class="title">日报系统</h1>
         <ul class="nav">
             <li :class="['days',{'active':isAbled}]" @click="showFill">填写日报</li>
@@ -39,12 +40,14 @@
 <script>
 import ProjectList from "@/components/projectList.vue";
 import ReportModle from "@/components/reportModle.vue";
+import ScoketRes from "@/components/scoketRes.vue"
 import {requestPersonInfo,submiProjectList,requestLookData,getVersion,deleteData} from "@/api";
 
 export default {
     components: {
         ProjectList,
-        ReportModle
+        ReportModle,
+        ScoketRes
     },
     data() {
         return {

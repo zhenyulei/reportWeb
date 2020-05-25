@@ -27,7 +27,7 @@
             <span class="pro-name">研发人员：</span>
 			<span class="pro-content">{{reportItem.proPerson}}</span>
         </div>
-		<div class="tap">占位符</div>
+		<div class="tap">--</div>
 	</div>
 </template>
 
