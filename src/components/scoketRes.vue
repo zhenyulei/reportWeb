@@ -1,17 +1,18 @@
 <template>
 	<div class="wrapper-user">
 		<div class="my-scoke">
-            <span>更新用户：</span>
-            <span v-for="(item,index) in updateName" :key="index">{{item+';'}}</span>
-            <span v-if="updateName.length>=5">全部更新</span>
+            <span class="user-box">更新用户：</span>
+            <ul v-if="timers.length>0" class="timer">
+                <li v-for="(value,index) in timers" :key="index" v-show="value.currTime">{{value.userName}}：{{value.currTime}}</li>
+            </ul>
         </div>
 	</div>
 </template>
 
 <script>
 import Vue from 'vue';
-import socket from 'socket.io-client';
 let isLoc = (() => /localhost|page.jd.com/.test(location.hostname))();
+import {getUserInfoTime} from "@/api";
 
 export default {
     components: {},
@@ -19,7 +20,10 @@ export default {
     },
 	data() {
 		return {
-            updateName:[]
+            updateName:[],
+            timers:[],
+            userErp:"",
+            userGroup:"",
 		};
     },
     watch:{
@@ -31,6 +35,12 @@ export default {
 
     },
 	mounted() {
+        var currUser = localStorage.getItem("currUser");
+        this.userErp = JSON.parse(currUser).userErp;
+        this.userGroup = JSON.parse(currUser).userGroup;
+        if(this.userErp &&  this.userGroup){
+            this.getTime();
+        }
         this.socketConnect();
 	},
     destroyed() {},
@@ -38,18 +48,25 @@ export default {
     },
     watch:{
         updateName(val){
-            if(val.length>5){
+            if(val.length>=5){
                 this.updateName = [];
             }
         }
     },
 	methods: {
+        async getTime(){
+            let transData = {
+                "userGroup":this.userGroup,
+                "userErp":this.userErp //当前登陆人，不允许修改
+            }
+           this.timers =  await getUserInfoTime(transData);
+        },
         socketConnect() {
             let url = '';
             if(isLoc){
                 url = 'ws://localhost:3344';
             }else{
-                url = 'ws://www.report.xiaozhumaopao.com:3344';
+                url = 'wss://www.report.xiaozhumaopao.com/websocket';
             }
             // 客户端与服务器进行连接
             let ws = new WebSocket(url); // 返回`WebSocket`对象，赋值给变量ws
@@ -63,7 +80,7 @@ export default {
                 if(!this.updateName.includes(e.data)){
                     this.updateName.push(e.data)
                 }
-                // ws.send('给服务端的数据'); 
+                ws.send('接受到服务端的数据'); 
             }
         }
 	}
@@ -75,6 +92,15 @@ export default {
     .my-scoke{
         padding:20px 0px;
         text-align: left;
+    }
+    .user-box{
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+    .timer{
+        li{
+            text-align: left;
+        }
     }
 }
 

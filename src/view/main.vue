@@ -2,7 +2,7 @@
     <div class="wrapper">
         <div class="quit" @click="quitLogin">退出登录</div>
         <h1 class="popular">欢迎您：{{userName}}</h1>
-        <ScoketRes v-if="userErp === 'zhenyulei'"/>
+        <ScoketRes v-if="isLeader === 1"/>
         <h1 class="title">日报系统</h1>
         <ul class="nav">
             <li :class="['days',{'active':isAbled}]" @click="showFill">填写日报</li>
@@ -53,6 +53,7 @@ export default {
         return {
             proData:[],
             userErp:"",
+            isLeader:"0",
             userName:"",
             userGroup:"",
             isAbled:true,
@@ -77,6 +78,7 @@ export default {
             this.userErp = JSON.parse(currUser).userErp;
             this.userName = JSON.parse(currUser).userName;
             this.userGroup = JSON.parse(currUser).userGroup;
+            this.isLeader = JSON.parse(currUser).isLeader;
             let transData = {
                 "userErp": this.userErp
             }

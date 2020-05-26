@@ -30,9 +30,9 @@ export default {
 	mounted() {
 		this.$nextTick(()=>{
 			let currUser = JSON.parse(localStorage.getItem("currUser"));
-			console.log(currUser.userErp)
-			if(currUser.userErp){
+			if(currUser && currUser.userErp){
 				this.useErp = currUser.userErp;
+				this.usePass = "123456";
 			}
 			document.body.style.height = document.documentElement.clientHeight+'px';
 			document.body.classList.add("hasbg");

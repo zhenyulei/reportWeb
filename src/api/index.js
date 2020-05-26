@@ -16,6 +16,12 @@ export function requestPersonInfo(transData) {
     return axios.post(url, qs.stringify(transData)).then(handleResponse).catch(handleError);
 }
 
+//获取当前用户群组的更新日期
+export function getUserInfoTime(transData) {
+    const url = "/api/users/getUserInfoTime";
+    return axios.post(url, qs.stringify(transData)).then(handleResponse).catch(handleError);
+}
+
 //提交数据
 export function submiProjectList(transData) {
     const url = "/api/project/submitData";
